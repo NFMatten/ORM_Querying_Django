@@ -60,6 +60,7 @@ SELECT `school_db_student`.`id`,
 def problem_one(request):
 
     students_3_0 = Student.objects.filter(gpa__gt = 3).order_by('-gpa')
+    
     for student in students_3_0:
       print(f"Student: {student.first_name} GPA: {student.gpa}")
     return complete(request)
@@ -102,8 +103,9 @@ SELECT `school_db_student`.`id`,
 def problem_two(request):
     print("")
     hired_instructors = Instructor.objects.filter(hire_date__year__lt = 2010).order_by("hire_date")
+
     for instructor in hired_instructors:
-      instructor_full_name = instructor.first_name + instructor.last_name
+      instructor_full_name = instructor.first_name + " " + instructor.last_name
       print(f"Full Name: {instructor_full_name}\nHire Date: {instructor.hire_date}\n")
     return complete(request)
 
@@ -253,6 +255,7 @@ SELECT COUNT(*) AS `__count`
 def problem_five(request):
 
     new_student = Student.objects.create(first_name="Kyle", last_name="Harwood", year=9, gpa=3.0)
+
     print(f'\nId: {new_student.id}')
     print(f'Full Name: {new_student.first_name} {new_student.last_name}')
     print(f'Year: {new_student.year}')
@@ -293,6 +296,7 @@ def problem_six(request):
     student_id = 11
     Student.objects.filter(pk=student_id).update(gpa=3.5)
     student = Student.objects.get(pk=student_id)
+
     print(f'\nId: {student.id}')
     print(f'Full Name: {student.first_name} {student.last_name}')
     print(f'GPA: {student.gpa}\n')
@@ -400,9 +404,9 @@ SELECT `school_db_student`.`id`,
 def bonus_problem(request):
     print("")
    
-    intsructor_courses = Instructor.objects.annotate(courses_count = Count('course__id')).filter(courses_count=1)
+    intsructor_with_single_course = Instructor.objects.annotate(number_of_courses = Count('course__id')).filter(number_of_courses=1)
 
-    for instructor in intsructor_courses:
+    for instructor in intsructor_with_single_course:
       full_name = instructor.first_name + " " + instructor.last_name
       print(f"Instructor Name: {full_name}")
 
