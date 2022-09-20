@@ -252,7 +252,7 @@ SELECT COUNT(*) AS `__count`
 # NOTE every time you execute this function a duplicate student will be created with a different primary key number
 def problem_five(request):
 
-    new_student = Student.objects.create(first_name="Kyle", last_name="Harwood", year=2022, gpa=3.0)
+    new_student = Student.objects.create(first_name="Kyle", last_name="Harwood", year=9, gpa=3.0)
     print(f'\nId: {new_student.id}')
     print(f'Full Name: {new_student.first_name} {new_student.last_name}')
     print(f'Year: {new_student.year}')
@@ -398,6 +398,13 @@ SELECT `school_db_student`.`id`,
 # Find all of the instructors that only belong to a single course
 # Print out the instructors full name and number of courses to the console
 def bonus_problem(request):
+    print("")
+   
+    intsructor_courses = Instructor.objects.annotate(courses_count = Count('course__id')).filter(courses_count=1)
+
+    for instructor in intsructor_courses:
+      full_name = instructor.first_name + " " + instructor.last_name
+      print(f"Instructor Name: {full_name}")
 
     return complete(request)
 
